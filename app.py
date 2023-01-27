@@ -1,48 +1,77 @@
 import os
-
 import boto3
-from flask import Flask, jsonify, make_response, request
+from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
+from flask import Flask, jsonify, make_response, request, abort
+from twilio.request_validator import RequestValidator
+from twilio.twiml.messaging_response import MessagingResponse
+import logging
 
+#test
+
+logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
-
-dynamodb_client = boto3.client('dynamodb')
-
-if os.environ.get('IS_OFFLINE'):
-    dynamodb_client = boto3.client(
-        'dynamodb', region_name='localhost', endpoint_url='http://localhost:8000'
-    )
-
+## local debug
+# if os.environ.get('IS_OFFLINE'):
+#     dynamodb_client = boto3.client(
+#         'dynamodb', region_name='localhost', endpoint_url='http://localhost:8000'
+#     )
 
 USERS_TABLE = os.environ['USERS_TABLE']
 
-
-@app.route('/users/<string:user_id>')
-def get_user(user_id):
-    result = dynamodb_client.get_item(
-        TableName=USERS_TABLE, Key={'userId': {'S': user_id}}
-    )
-    item = result.get('Item')
-    if not item:
-        return jsonify({'error': 'Could not find user with provided "userId"'}), 404
-
-    return jsonify(
-        {'userId': item.get('userId').get('S'), 'name': item.get('name').get('S')}
-    )
-
+#get twilio auth token from AWS systems manager parameter store
+client = boto3.client('ssm')
+response = client.get_parameter(
+    Name='/twilio/trial-account/twilio_auth_token',
+    WithDecryption=True
+)
+TWILIO_AUTH_TOKEN = response['Parameter']['Value']
 
 @app.route('/users', methods=['POST'])
 def create_user():
-    user_id = request.json.get('userId')
-    name = request.json.get('name')
-    if not user_id or not name:
-        return jsonify({'error': 'Please provide both "userId" and "name"'}), 400
+    #validate that the request originates from Twilio
+    validator = RequestValidator(TWILIO_AUTH_TOKEN)
+    if not validator.validate(request.url, request.form, request.headers.get('X-Twilio-Signature')):
+        abort(400)
 
-    dynamodb_client.put_item(
-        TableName=USERS_TABLE, Item={'userId': {'S': user_id}, 'name': {'S': name}}
-    )
+    #pull data from request
+    current_status = str.upper(request.form['Body'])
+    phone_number = request.form['From']
 
-    return jsonify({'userId': user_id, 'name': name})
+    #response logic
+    if current_status == 'DAILY-SMS':
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the SMS sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+    elif current_status == 'STOP-SERVICES':
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. Text "DAILY-SMS" anytime to resume services.'
+    else:
+        msg = 'Thank you for your interest in the ISI daily bible verse service. The keyword you sent is not among the available options. Please choose from the following: "DAILY-SMS" : daily SMS subscription at 7am., "STOP-SERVICES" : unsubscribe from all services.'
+
+    if current_status in ('DAILY-SMS', 'STOP-SERVICES'):
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table(USERS_TABLE)
+
+        try:
+            response = table.update_item(
+                        Key={'phone_number': phone_number},
+                        UpdateExpression="set current_status = :s",
+                        ExpressionAttributeValues={
+                            ':s': current_status},
+                        ReturnValues="UPDATED_NEW")
+        except ClientError as err:
+            logger.error(
+                        "Couldn't update item %s in table %s. Here's why: %s: %s",
+                        phone_number, table.name,
+                        err.response['Error']['Code'], err.response['Error']['Message'])
+            raise
+        else:
+            print(response['Attributes'])
+        
+    #create response
+    resp = MessagingResponse()
+    resp.message(msg)
+
+    return str(resp), 200, {'Content-Type': 'application/xml'}
 
 
 @app.errorhandler(404)
