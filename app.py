@@ -19,7 +19,14 @@ app = Flask(__name__)
 #     )
 
 USERS_TABLE = os.environ['USERS_TABLE']
-TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+
+#get twilio auth token from AWS systems manager parameter store
+client = boto3.client('ssm')
+response = client.get_parameter(
+    Name='/twilio/trial-account/twilio_auth_token',
+    WithDecryption=True
+)
+TWILIO_AUTH_TOKEN = response['Parameter']['Value']
 
 @app.route('/users', methods=['POST'])
 def create_user():

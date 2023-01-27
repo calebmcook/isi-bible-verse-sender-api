@@ -23,9 +23,14 @@ provider:
             - dynamodb:DeleteItem
           Resource:
             - Fn::GetAtt: [ UsersTable, Arn ]
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+          Resource:
+            - "arn:aws:ssm:us-east-1:054619787751:parameter/twilio/trial-account/twilio_auth_token"
+
   environment:
     USERS_TABLE: ${self:custom.tableName}
-    TWILIO_AUTH_TOKEN: ${ssm:/twilio/trial-account/twilio_auth_token}
 
 functions:
   webhook:
