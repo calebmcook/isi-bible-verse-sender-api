@@ -2,4 +2,5 @@
 npm-debug.log
 package-lock.json
 /.serverless
-/venv
+/venv/
+venv/lib/*
