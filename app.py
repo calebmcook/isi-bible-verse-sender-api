@@ -23,7 +23,7 @@ USERS_TABLE = os.environ['USERS_TABLE']
 #get twilio auth token from AWS systems manager parameter store
 client = boto3.client('ssm')
 response = client.get_parameter(
-    Name='/twilio/trial-account/twilio_auth_token',
+    Name='/twilio/garretson_technology_isi_subaccount/twilio_auth_token',
     WithDecryption=True
 )
 TWILIO_AUTH_TOKEN = response['Parameter']['Value']
