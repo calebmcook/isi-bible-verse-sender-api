@@ -45,9 +45,14 @@ def create_user():
     elif current_status == 'STOP-SERVICES':
         msg = 'Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. Text "DAILY-SMS" anytime to resume services.'
     else:
-        msg = 'Thank you for your interest in the ISI daily bible verse service. The keyword you sent is not among the available options. Please choose from the following: "DAILY-SMS" : daily SMS subscription at 7am., "STOP-SERVICES" : unsubscribe from all services.'
+        msg = """Thank you for your interest in the ISI daily bible verse service. 
+                 The keyword you sent is not among the available options. Please choose from the following: 
+                 "DAILY-SMS" : daily SMS subscription at 7am., 
+                 "STOP-SERVICES" : unsubscribe from all services., 
+                 "HOPE-SMS" : daily Hope In Numbers SMS subscription at 6:33am
+            """
 
-    if current_status in ('DAILY-SMS', 'STOP-SERVICES'):
+    if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS'):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(USERS_TABLE)
 
