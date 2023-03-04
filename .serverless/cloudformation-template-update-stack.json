@@ -187,7 +187,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1676686263995-2023-02-18T02:11:03.995Z/aws-python-flask-dynamodb-api.zip"
+          "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1677906940480-2023-03-04T05:15:40.480Z/aws-python-flask-dynamodb-api.zip"
         },
         "Handler": "wsgi_handler.handler",
         "Runtime": "python3.9",
@@ -210,14 +210,14 @@
         "WebhookLogGroup"
       ]
     },
-    "WebhookLambdaVersionsP7SkCCjMbqY82AlTDtjEM9NHSWB7VsDjkVHCgM8": {
+    "WebhookLambdaVersion27QH1BThULpQ3o8VjjNqEHrazjwh8A7VwDrAPNR4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "WebhookLambdaFunction"
         },
-        "CodeSha256": "CZO8ERgh61Y9Z9osW7B4OhQ6+CHj1q+i0nlS9RGRlyk="
+        "CodeSha256": "/p1kdpxObZPh1d2wJrVtTpNOO+c0mlasZHSL4lVXs2E="
       }
     },
     "WebhookLambdaFunctionUrl": {
@@ -281,7 +281,7 @@
     "WebhookLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "WebhookLambdaVersionsP7SkCCjMbqY82AlTDtjEM9NHSWB7VsDjkVHCgM8"
+        "Ref": "WebhookLambdaVersion27QH1BThULpQ3o8VjjNqEHrazjwh8A7VwDrAPNR4"
       },
       "Export": {
         "Name": "sls-aws-python-flask-dynamodb-api-dev-WebhookLambdaFunctionQualifiedArn"
