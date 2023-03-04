@@ -45,7 +45,11 @@ def create_user():
     elif current_status == 'HOPE-SMS':
         msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers SMS sent at 6:33am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'STOP-SERVICES':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. Text "DAILY-SMS" anytime to resume services.'
+        msg = """Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. 
+                To resume your subscription, text one of:
+                "DAILY-SMS" : daily SMS subscription at 7am.,
+                "HOPE-SMS" : daily Hope In Numbers SMS subscription at 6:33am
+                """
     else:
         msg = """Thank you for your interest in the ISI daily bible verse service. 
                  The keyword you sent is not among the available options. Please choose from the following: 
