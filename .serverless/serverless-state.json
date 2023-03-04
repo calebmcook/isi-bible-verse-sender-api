@@ -214,7 +214,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1677906940480-2023-03-04T05:15:40.480Z/aws-python-flask-dynamodb-api.zip"
+                "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1677908073256-2023-03-04T05:34:33.256Z/aws-python-flask-dynamodb-api.zip"
               },
               "Handler": "wsgi_handler.handler",
               "Runtime": "python3.9",
@@ -237,14 +237,14 @@
               "WebhookLogGroup"
             ]
           },
-          "WebhookLambdaVersion27QH1BThULpQ3o8VjjNqEHrazjwh8A7VwDrAPNR4": {
+          "WebhookLambdaVersionQQLVFKwAxUo4xup6B0MjXs7fVyhPeYMonJ0We8w": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "WebhookLambdaFunction"
               },
-              "CodeSha256": "/p1kdpxObZPh1d2wJrVtTpNOO+c0mlasZHSL4lVXs2E="
+              "CodeSha256": "QBwjj1y9CCQZ4mZeZSah3+0RFex5K7S+EIaZsk5F5TI="
             }
           },
           "WebhookLambdaFunctionUrl": {
@@ -305,7 +305,7 @@
           "WebhookLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "WebhookLambdaVersion27QH1BThULpQ3o8VjjNqEHrazjwh8A7VwDrAPNR4"
+              "Ref": "WebhookLambdaVersionQQLVFKwAxUo4xup6B0MjXs7fVyhPeYMonJ0We8w"
             },
             "Export": {
               "Name": "sls-aws-python-flask-dynamodb-api-dev-WebhookLambdaFunctionQualifiedArn"
@@ -431,7 +431,7 @@
         "timeout": 6,
         "runtime": "python3.9",
         "vpc": {},
-        "versionLogicalId": "WebhookLambdaVersion27QH1BThULpQ3o8VjjNqEHrazjwh8A7VwDrAPNR4"
+        "versionLogicalId": "WebhookLambdaVersionQQLVFKwAxUo4xup6B0MjXs7fVyhPeYMonJ0We8w"
       }
     },
     "resources": {
@@ -487,7 +487,7 @@
     "artifact": "/Users/calebmcook/Documents/dev/Github Repos/isi-bible-verse-sender-api/.serverless/aws-python-flask-dynamodb-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/aws-python-flask-dynamodb-api/dev/1677906940480-2023-03-04T05:15:40.480Z",
+    "artifactDirectoryName": "serverless/aws-python-flask-dynamodb-api/dev/1677908073256-2023-03-04T05:34:33.256Z",
     "artifact": "aws-python-flask-dynamodb-api.zip"
   }
 }

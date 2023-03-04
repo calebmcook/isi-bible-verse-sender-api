@@ -42,6 +42,8 @@ def create_user():
     #response logic
     if current_status == 'DAILY-SMS':
         msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the SMS sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+    elif current_status == 'HOPE-SMS':
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers SMS sent at 6:33am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'STOP-SERVICES':
         msg = 'Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. Text "DAILY-SMS" anytime to resume services.'
     else:
