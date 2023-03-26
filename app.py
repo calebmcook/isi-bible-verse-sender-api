@@ -7,16 +7,8 @@ from twilio.request_validator import RequestValidator
 from twilio.twiml.messaging_response import MessagingResponse
 import logging
 
-#test
-
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
-
-## local debug
-# if os.environ.get('IS_OFFLINE'):
-#     dynamodb_client = boto3.client(
-#         'dynamodb', region_name='localhost', endpoint_url='http://localhost:8000'
-#     )
 
 USERS_TABLE = os.environ['USERS_TABLE']
 
@@ -41,9 +33,11 @@ def create_user():
 
     #response logic
     if current_status == 'DAILY-SMS':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the SMS sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+    elif current_status == 'DAILY-IMAGE':
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS bible verse image sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'HOPE-SMS':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers SMS sent at 6:33am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers MMS sent at 6:33am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'STOP-SERVICES':
         msg = """Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. 
                 To resume your subscription, text one of:
@@ -53,9 +47,10 @@ def create_user():
     else:
         msg = """Thank you for your interest in the ISI daily bible verse service. 
                  The keyword you sent is not among the available options. Please choose from the following: 
-                 "DAILY-SMS" : daily SMS subscription at 7am., 
-                 "STOP-SERVICES" : unsubscribe from all services., 
-                 "HOPE-SMS" : daily Hope In Numbers SMS subscription at 6:33am
+                 "DAILY-SMS" : daily SMS subscription at 7am.,
+                 "DAILY-IMAGE" : daily MMS verse image subscription at 7am.,
+                 "HOPE-SMS" : daily Hope In Numbers SMS subscription at 6:33am,
+                 "STOP-SERVICES" : unsubscribe from all services.
             """
 
     if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS'):
