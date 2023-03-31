@@ -53,7 +53,7 @@ def create_user():
                  "STOP-SERVICES" : unsubscribe from all services.
             """
 
-    if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS'):
+    if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS', 'DAILY-IMAGE'):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(USERS_TABLE)
 
