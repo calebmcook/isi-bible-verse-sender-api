@@ -15,7 +15,7 @@ USERS_TABLE = os.environ['USERS_TABLE']
 #get twilio auth token from AWS systems manager parameter store
 client = boto3.client('ssm')
 response = client.get_parameter(
-    Name='/twilio/garretson_technology_isi_subaccount/twilio_auth_token',
+    Name='/twilio/isiaccount/twilio_auth_token',
     WithDecryption=True
 )
 TWILIO_AUTH_TOKEN = response['Parameter']['Value']
@@ -33,16 +33,23 @@ def create_user():
 
     #response logic
     if current_status == 'DAILY-SMS':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS sent at 7am AZ time.\
+              Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'DAILY-IMAGE':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS bible verse image sent at 7am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the MMS bible verse image sent at 7am AZ time.\
+              Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'HOPE-SMS':
-        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers MMS sent at 6:33am AZ time. Text "STOP-SERVICES" any time to cancel your subscription.'
+        msg = 'Thank you for your interest in the ISI daily bible verse service! You are now subscribed to the Hope In Numbers MMS sent at 6:33am AZ time.\
+              Text "STOP-SERVICES" any time to cancel your subscription.'
     elif current_status == 'STOP-SERVICES':
         msg = """Thank you for your interest in the ISI daily bible verse service! You are now unsubscribed to all services. 
                 To resume your subscription, text one of:
                 "DAILY-SMS" : daily SMS subscription at 7am.,
                 "HOPE-SMS" : daily Hope In Numbers SMS subscription at 6:33am
+                """
+    elif current_status == 'ALL':
+        msg = """Thank you for your interest in the ISI daily bible verse service! You are now subscribed to all services. 
+                Text "STOP-SERVICES" any time to cancel your subscriptions.
                 """
     else:
         msg = """Thank you for your interest in the ISI daily bible verse service. 
@@ -53,7 +60,7 @@ def create_user():
                  "STOP-SERVICES" : unsubscribe from all services.
             """
 
-    if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS', 'DAILY-IMAGE'):
+    if current_status in ('DAILY-SMS', 'STOP-SERVICES', 'HOPE-SMS', 'DAILY-IMAGE', 'ALL'):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(USERS_TABLE)
 

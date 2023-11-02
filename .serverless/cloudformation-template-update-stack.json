@@ -158,7 +158,7 @@
                   "Action": [
                     "ssm:GetParameter"
                   ],
-                  "Resource": "arn:aws:ssm:us-east-1:054619787751:parameter/twilio/garretson_technology_isi_subaccount/twilio_auth_token"
+                  "Resource": "arn:aws:ssm:us-east-1:054619787751:parameter/twilio/isiaccount/twilio_auth_token"
                 }
               ]
             }
@@ -187,7 +187,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1677908073256-2023-03-04T05:34:33.256Z/aws-python-flask-dynamodb-api.zip"
+          "S3Key": "serverless/aws-python-flask-dynamodb-api/dev/1698885464941-2023-11-02T00:37:44.941Z/aws-python-flask-dynamodb-api.zip"
         },
         "Handler": "wsgi_handler.handler",
         "Runtime": "python3.9",
@@ -210,14 +210,14 @@
         "WebhookLogGroup"
       ]
     },
-    "WebhookLambdaVersionQQLVFKwAxUo4xup6B0MjXs7fVyhPeYMonJ0We8w": {
+    "WebhookLambdaVersionaqZ7tX1dtQxbiCqvyqE1IZfOsX0CFL7iEhondTfo20": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "WebhookLambdaFunction"
         },
-        "CodeSha256": "QBwjj1y9CCQZ4mZeZSah3+0RFex5K7S+EIaZsk5F5TI="
+        "CodeSha256": "zVwjYuNMFZbA5QRgi9eCbb7vk9w7NTD9qGQ6MyeVLAQ="
       }
     },
     "WebhookLambdaFunctionUrl": {
@@ -281,7 +281,7 @@
     "WebhookLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "WebhookLambdaVersionQQLVFKwAxUo4xup6B0MjXs7fVyhPeYMonJ0We8w"
+        "Ref": "WebhookLambdaVersionaqZ7tX1dtQxbiCqvyqE1IZfOsX0CFL7iEhondTfo20"
       },
       "Export": {
         "Name": "sls-aws-python-flask-dynamodb-api-dev-WebhookLambdaFunctionQualifiedArn"
