@@ -27,7 +27,12 @@ provider:
           Action:
             - ssm:GetParameter
           Resource:
-            - "arn:aws:ssm:us-east-1:054619787751:parameter/twilio/garretson_technology_isi_subaccount/twilio_auth_token"
+            - "arn:aws:ssm:us-east-1:054619787751:parameter/twilio/isiaccount/twilio_auth_token"
+        - Effect: Allow
+          Action:
+            - kms:Decrypt
+          Resource:
+            - "arn:aws:kms:us-east-1:054619787751:key/09ab41da-2847-4fc9-9795-58b2f73b66b5"
 
   environment:
     USERS_TABLE: ${self:custom.tableName}
